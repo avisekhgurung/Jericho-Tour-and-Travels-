@@ -1,0 +1,94 @@
+import Link from "next/link";
+import { Globe, Mail, MapPin, MessageCircle, Phone, Share2 } from "lucide-react";
+
+export function SiteFooter() {
+  return (
+    <footer className="bg-primary text-white">
+      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
+          <div>
+            <h3 style={{ fontSize: "1.25rem", fontWeight: 700, marginBottom: "1rem" }}>Jericho Tour & Travels</h3>
+            <p className="mb-4 text-white/80">
+              Your trusted travel partner in Darjeeling with 5+ years of experience
+            </p>
+            <div className="flex gap-4">
+              {[Globe, MessageCircle, Share2].map((Icon, idx) => (
+                <a
+                  key={idx}
+                  href="#"
+                  className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 transition-all duration-300 hover:scale-110 hover:bg-accent"
+                  aria-label="social"
+                >
+                  <Icon className="size-5" />
+                </a>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <h4 style={{ fontSize: "1.125rem", fontWeight: 600, marginBottom: "1rem" }}>Quick Links</h4>
+            <ul className="space-y-2">
+              <li>
+                <Link href="/" className="text-white/80 transition-colors hover:text-accent">
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link href="/#services" className="text-white/80 transition-colors hover:text-accent">
+                  Services
+                </Link>
+              </li>
+              <li>
+                <Link href="/#destinations" className="text-white/80 transition-colors hover:text-accent">
+                  Destinations
+                </Link>
+              </li>
+              <li>
+                <Link href="/enquiry" className="text-white/80 transition-colors hover:text-accent">
+                  Contact
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 style={{ fontSize: "1.125rem", fontWeight: 600, marginBottom: "1rem" }}>Services</h4>
+            <ul className="space-y-2 text-white/80">
+              <li>Car Rental</li>
+              <li>Hotel Booking</li>
+              <li>Bus Booking</li>
+              <li>Travel Packages</li>
+              <li>Tour Guide</li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 style={{ fontSize: "1.125rem", fontWeight: 600, marginBottom: "1rem" }}>Contact Info</h4>
+            <ul className="space-y-3">
+              <li className="flex items-start gap-3">
+                <MapPin className="mt-0.5 size-5 shrink-0 text-accent" />
+                <span className="text-white/80">Rangbull, Darjeeling, West Bengal</span>
+              </li>
+              <li className="flex items-center gap-3">
+                <Phone className="size-5 shrink-0 text-accent" />
+                <a href="tel:+919876543210" className="text-white/80 transition-colors hover:text-accent">
+                  +91 98765 43210
+                </a>
+              </li>
+              <li className="flex items-center gap-3">
+                <Mail className="size-5 shrink-0 text-accent" />
+                <a href="mailto:info@jerichotours.com" className="text-white/80 transition-colors hover:text-accent">
+                  info@jerichotours.com
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="mt-8 border-t border-white/10 pt-8 text-center text-white/60">
+          <p>© 2026 Jericho Tour & Travels. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+  );
+}
