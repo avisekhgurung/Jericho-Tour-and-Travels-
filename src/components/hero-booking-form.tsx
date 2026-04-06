@@ -34,11 +34,37 @@ const initialState: FormState = {
 
 export function HeroBookingForm() {
   const [form, setForm] = useState<FormState>(initialState);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitResult, setSubmitResult] = useState<{ success: boolean; message: string } | null>(null);
 
-  const onSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    window.alert("Thank you for your enquiry! We will contact you soon.");
-    setForm(initialState);
+    setIsSubmitting(true);
+    setSubmitResult(null);
+
+    try {
+      const payload = {
+        ...form,
+        lookingFor: form.lookingFor || "Tour Package",
+      };
+
+      const response = await fetch("/api/bookings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (response.ok) {
+        setSubmitResult({ success: true, message: "Booking submitted successfully! We will contact you soon." });
+        setForm(initialState);
+      } else {
+        setSubmitResult({ success: false, message: "Something went wrong. Please try again." });
+      }
+    } catch {
+      setSubmitResult({ success: false, message: "Network error. Please try again." });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -295,12 +321,25 @@ export function HeroBookingForm() {
           </>
         )}
 
+        {submitResult && (
+          <div
+            className={`rounded-lg px-4 py-3 text-sm ${
+              submitResult.success
+                ? "bg-green-50 text-green-700 border border-green-200"
+                : "bg-red-50 text-red-700 border border-red-200"
+            }`}
+          >
+            {submitResult.message}
+          </div>
+        )}
+
         <button
           type="submit"
-          className="w-full rounded-lg bg-gradient-to-r from-[#E5A832] to-[#F4C430] py-3 text-primary shadow-lg transition-all hover:shadow-xl sm:py-4"
+          disabled={isSubmitting}
+          className="w-full rounded-lg bg-gradient-to-r from-[#E5A832] to-[#F4C430] py-3 text-primary shadow-lg transition-all hover:shadow-xl disabled:opacity-60 sm:py-4"
           style={{ fontWeight: 700, fontSize: "clamp(0.938rem, 3vw, 1.125rem)" }}
         >
-          Book Now
+          {isSubmitting ? "Submitting..." : "Book Now"}
         </button>
       </form>
     </div>

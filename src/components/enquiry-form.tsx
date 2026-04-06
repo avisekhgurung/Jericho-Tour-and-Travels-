@@ -25,12 +25,33 @@ const destinations = ["Darjeeling", "Sikkim", "Gangtok", "Kalimpong", "Pelling",
 
 export function EnquiryForm() {
   const [form, setForm] = useState<EnquiryFormState>(initialState);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitResult, setSubmitResult] = useState<{ success: boolean; message: string } | null>(null);
   const minDate = useMemo(() => new Date().toISOString().split("T")[0], []);
 
-  const onSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    window.alert("Thank you for your enquiry! We will get back to you soon.");
-    setForm(initialState);
+    setIsSubmitting(true);
+    setSubmitResult(null);
+
+    try {
+      const response = await fetch("/api/enquiries", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+
+      if (response.ok) {
+        setSubmitResult({ success: true, message: "Enquiry sent successfully! We will get back to you soon." });
+        setForm(initialState);
+      } else {
+        setSubmitResult({ success: false, message: "Something went wrong. Please try again." });
+      }
+    } catch {
+      setSubmitResult({ success: false, message: "Network error. Please try again." });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -135,12 +156,25 @@ export function EnquiryForm() {
         />
       </div>
 
+      {submitResult && (
+        <div
+          className={`rounded-lg px-4 py-3 text-sm ${
+            submitResult.success
+              ? "bg-green-50 text-green-700 border border-green-200"
+              : "bg-red-50 text-red-700 border border-red-200"
+          }`}
+        >
+          {submitResult.message}
+        </div>
+      )}
+
       <button
         type="submit"
-        className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-accent px-8 py-4 text-white shadow-lg transition-all duration-300 hover:bg-accent/90 hover:shadow-xl"
+        disabled={isSubmitting}
+        className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-accent px-8 py-4 text-white shadow-lg transition-all duration-300 hover:bg-accent/90 hover:shadow-xl disabled:opacity-60"
       >
-        <span>Send Enquiry</span>
-        <ArrowRight className="size-5" />
+        <span>{isSubmitting ? "Sending..." : "Send Enquiry"}</span>
+        {!isSubmitting && <ArrowRight className="size-5" />}
       </button>
     </form>
   );
