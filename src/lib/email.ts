@@ -2,7 +2,7 @@ import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "admin@jerichotours.com";
-const FROM_EMAIL = process.env.FROM_EMAIL || "Jericho Tours <onboarding@resend.dev>";
+const FROM_EMAIL = process.env.FROM_EMAIL || "Jericho Tours <bookings@jerichotourandtravels.com>";
 
 type BookingData = {
   id: number;
