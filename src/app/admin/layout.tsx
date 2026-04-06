@@ -16,7 +16,7 @@ import { useEffect, useState } from "react";
 const navItems = [
   { href: "/admin", label: "Dashboard", icon: BarChart3 },
   { href: "/admin/bookings", label: "Bookings", icon: BookOpen },
-  { href: "/admin/enquiries", label: "Enquiries", icon: MessageSquare },
+  // { href: "/admin/enquiries", label: "Enquiries", icon: MessageSquare },
 ];
 
 function AdminShell({ children, pathname }: { children: React.ReactNode; pathname: string }) {
