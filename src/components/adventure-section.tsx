@@ -1,61 +1,65 @@
 "use client";
 
+import Link from "next/link";
 import { Bike, Mountain, Waves, Wind, TreePine, Camera } from "lucide-react";
 
 const adventures = [
   {
+    slug: "cycling",
     icon: Bike,
     title: "Cycling",
-    description: "Ride through scenic mountain trails and tea gardens",
+    description: "Pedal through Darjeeling tea gardens and Sikkim mountain passes",
     gradient: "from-emerald-500 to-emerald-600",
     image:
-      "https://images.unsplash.com/photo-1541625602330-2277a4c46182?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800",
+      "/cycling.jpg",
   },
   {
+    slug: "camping",
     icon: TreePine,
     title: "Camping",
-    description: "Camp under the stars with breathtaking mountain views",
+    description: "Camp under the stars at Sandakphu with Kanchenjunga views",
     gradient: "from-amber-500 to-amber-600",
     image:
       "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800",
   },
   {
+    slug: "paragliding",
     icon: Wind,
     title: "Paragliding",
-    description: "Soar above the hills and enjoy panoramic views",
+    description: "Soar above Gangtok valley and Darjeeling tea estates",
     gradient: "from-sky-500 to-sky-600",
-    image:
-      "https://images.unsplash.com/photo-1503104834685-7205e8607eb9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800",
+    image: "/paragliding.jpg",
   },
   {
+    slug: "rafting",
     icon: Waves,
-    title: "Rafting",
-    description: "Experience thrilling white water rafting in Teesta river",
+    title: "River Rafting",
+    description: "Conquer Grade II-IV rapids on the mighty Teesta River",
     gradient: "from-blue-500 to-blue-600",
-    image:
-      "https://images.unsplash.com/photo-1530866495561-507c83d06890?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800",
+    image: "/river-rafting.jpg",
   },
   {
+    slug: "trekking",
     icon: Mountain,
     title: "Trekking",
-    description: "Trek through lush green trails of the Eastern Himalayas",
+    description: "Walk legendary trails to Sandakphu and Goechala base camp",
     gradient: "from-rose-500 to-rose-600",
-    image:
-      "https://images.unsplash.com/photo-1551632811-561732d1e306?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800",
+    image: "/trekking.jpg",
   },
   {
+    slug: "sightseeing",
     icon: Camera,
     title: "Sightseeing",
-    description: "Explore hidden gems and iconic landmarks of the region",
+    description: "Tiger Hill sunrise, Tsomgo Lake, Nathula Pass and more",
     gradient: "from-violet-500 to-violet-600",
     image:
-      "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800",
+      "https://images.unsplash.com/photo-1626621331169-5f34be280ed9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800",
   },
 ];
 
 export function AdventureSection() {
   return (
-    <section className="relative overflow-hidden bg-primary px-3 py-12 sm:px-4 sm:py-20">
+    <section id="adventures" className="relative overflow-hidden bg-primary px-3 py-12 sm:px-4 sm:py-20">
       <div className="absolute inset-0 opacity-10">
         <div className="absolute top-0 left-0 h-72 w-72 rounded-full bg-accent blur-3xl" />
         <div className="absolute right-0 bottom-0 h-72 w-72 rounded-full bg-secondary blur-3xl" />
@@ -76,7 +80,7 @@ export function AdventureSection() {
             Adventure Activities
           </h2>
           <p className="mx-auto mt-2 max-w-2xl text-sm text-white/70 sm:mt-4 sm:text-base">
-            Add a dash of adventure to your trip with our exciting outdoor activities
+            Add a dash of adventure to your Darjeeling & Sikkim trip
           </p>
         </div>
 
@@ -84,10 +88,10 @@ export function AdventureSection() {
           {adventures.map((adventure, index) => {
             const Icon = adventure.icon;
             return (
-              <article
-                key={adventure.title}
+              <Link
+                key={adventure.slug}
+                href={`/adventures/${adventure.slug}`}
                 className="group relative overflow-hidden rounded-xl bg-white/5 backdrop-blur-sm transition-all duration-500 hover:bg-white/10 sm:rounded-2xl"
-                style={{ animationDelay: `${index * 100}ms` }}
               >
                 <div className="relative h-32 overflow-hidden sm:h-48">
                   <img
@@ -113,10 +117,13 @@ export function AdventureSection() {
                   <p className="text-[0.688rem] leading-relaxed text-white/70 sm:text-sm">
                     {adventure.description}
                   </p>
+                  <span className="mt-2 inline-block text-[0.625rem] font-semibold text-accent sm:mt-3 sm:text-xs">
+                    Learn More →
+                  </span>
                 </div>
 
                 <div className="absolute inset-x-0 bottom-0 h-0.5 origin-left scale-x-0 bg-gradient-to-r from-accent to-secondary transition-transform duration-500 group-hover:scale-x-100" />
-              </article>
+              </Link>
             );
           })}
         </div>

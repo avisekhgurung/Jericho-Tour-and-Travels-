@@ -19,36 +19,23 @@ const navItems = [
   { href: "/admin/enquiries", label: "Enquiries", icon: MessageSquare },
 ];
 
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
-  const pathname = usePathname();
+function AdminShell({ children, pathname }: { children: React.ReactNode; pathname: string }) {
   const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  // Close sidebar on route change
   useEffect(() => {
     setSidebarOpen(false);
   }, [pathname]);
-
-  const isLoginPage = pathname === "/admin/login";
 
   const handleLogout = async () => {
     await fetch("/api/auth/logout", { method: "POST" });
     router.push("/admin/login");
   };
 
-  if (!mounted) return <>{children}</>;
-  if (isLoginPage) return <>{children}</>;
-
   const currentPage = navItems.find((i) => pathname === i.href || (i.href !== "/admin" && pathname.startsWith(i.href)))?.label || "Admin";
 
   return (
     <div className="flex h-screen overflow-hidden bg-gray-50">
-      {/* Mobile overlay */}
       {sidebarOpen && (
         <div
           className="fixed inset-0 z-30 bg-black/60 backdrop-blur-sm transition-opacity lg:hidden"
@@ -56,13 +43,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         />
       )}
 
-      {/* Sidebar */}
       <aside
         className={`fixed inset-y-0 left-0 z-40 flex w-[260px] flex-col bg-primary transition-transform duration-300 ease-in-out lg:static lg:translate-x-0 ${
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        {/* Sidebar Header */}
         <div className="flex h-16 shrink-0 items-center justify-between border-b border-white/10 px-5">
           <Link href="/admin" className="flex items-center gap-2.5">
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#E5A832]">
@@ -81,11 +66,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           </button>
         </div>
 
-        {/* Nav Items */}
         <nav className="flex-1 space-y-1 overflow-y-auto px-3 py-4">
-          <p className="mb-2 px-3 text-[10px] font-semibold uppercase tracking-wider text-white/40">
-            Menu
-          </p>
+          <p className="mb-2 px-3 text-[10px] font-semibold uppercase tracking-wider text-white/40">Menu</p>
           {navItems.map((item) => {
             const Icon = item.icon;
             const active = pathname === item.href || (item.href !== "/admin" && pathname.startsWith(item.href));
@@ -106,7 +88,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           })}
         </nav>
 
-        {/* Sidebar Footer */}
         <div className="shrink-0 border-t border-white/10 p-3">
           <button
             onClick={handleLogout}
@@ -118,9 +99,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </div>
       </aside>
 
-      {/* Main Area */}
       <div className="flex flex-1 flex-col overflow-hidden">
-        {/* Top Header */}
         <header className="flex h-14 shrink-0 items-center justify-between border-b border-gray-200 bg-white px-4 sm:h-16 sm:px-6">
           <div className="flex items-center gap-3">
             <button
@@ -129,28 +108,25 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             >
               <Menu className="size-5" />
             </button>
-            <div>
-              <h1 className="text-base font-semibold text-primary sm:text-lg">{currentPage}</h1>
-            </div>
+            <h1 className="text-base font-semibold text-primary sm:text-lg">{currentPage}</h1>
           </div>
-
-          {/* Desktop logout */}
           <div className="hidden items-center gap-3 sm:flex">
-            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary">
-              A
-            </div>
-            <button
-              onClick={handleLogout}
-              className="text-sm text-gray-500 hover:text-red-500"
-            >
-              Logout
-            </button>
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary">A</div>
+            <button onClick={handleLogout} className="text-sm text-gray-500 hover:text-red-500">Logout</button>
           </div>
         </header>
-
-        {/* Content */}
         <main className="flex-1 overflow-y-auto p-3 sm:p-4 lg:p-6">{children}</main>
       </div>
     </div>
   );
+}
+
+export default function AdminLayout({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+
+  if (pathname === "/admin/login") {
+    return <>{children}</>;
+  }
+
+  return <AdminShell pathname={pathname}>{children}</AdminShell>;
 }

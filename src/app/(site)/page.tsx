@@ -1,12 +1,12 @@
 import Image from "next/image";
-import Link from "next/link";
 import {
   BadgeCheck,
-  Bus,
   CarFront,
+  Compass,
   Hotel,
   IndianRupee,
   MapPin,
+  Mountain,
   Phone,
   Shield,
   Star,
@@ -19,53 +19,54 @@ const services = [
   {
     icon: CarFront,
     title: "Car Rental",
-    description: "Wide range of vehicles for comfortable travel",
+    description: "Wide range of vehicles for comfortable travel across Darjeeling & Sikkim",
     gradient: "from-blue-500 to-blue-600",
+  },
+  {
+    icon: Compass,
+    title: "Tour & Travels",
+    description: "Customized tour packages for Darjeeling, Sikkim & Dooars",
+    gradient: "from-orange-500 to-orange-600",
   },
   {
     icon: Hotel,
     title: "Hotel Booking",
-    description: "Best hotels at affordable prices",
+    description: "Best hotels and homestays at affordable prices",
     gradient: "from-purple-500 to-purple-600",
   },
   {
-    icon: Bus,
-    title: "Bus Booking",
-    description: "Comfortable bus services to all destinations",
+    icon: Mountain,
+    title: "Adventure",
+    description: "Rafting, trekking, paragliding & more thrilling activities",
     gradient: "from-green-500 to-green-600",
-  },
-  {
-    icon: MapPin,
-    title: "Travel Packages",
-    description: "Customized tour packages for your needs",
-    gradient: "from-orange-500 to-orange-600",
   },
 ];
 
-const destinations = [
+const destinationsList = [
   {
+    slug: "darjeeling",
     name: "Darjeeling",
-    image:
-      "https://images.unsplash.com/photo-1545324367-8997ba3b801e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800",
+    image: "/darjeeling.jpg",
     description: "Queen of Hills",
   },
   {
-    name: "Sikkim",
-    image:
-      "https://images.unsplash.com/photo-1551155311-88cda3ebe650?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800",
-    description: "Land of Monasteries",
-  },
-  {
+    slug: "gangtok",
     name: "Gangtok",
-    image:
-      "https://images.unsplash.com/photo-1628837234647-b35db4740c85?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800",
+    image: "/gangtok.jpg",
     description: "Capital of Sikkim",
   },
   {
-    name: "Kalimpong",
+    slug: "pelling",
+    name: "Pelling",
+    image: "/pelling.jpg",
+    description: "Gateway to Kanchenjunga",
+  },
+  {
+    slug: "dooars",
+    name: "Dooars",
     image:
-      "https://images.unsplash.com/photo-1585898175463-4bb8b8a9dea2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800",
-    description: "Nature's Paradise",
+      "https://images.unsplash.com/photo-1564760055775-d63b17a55c44?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800",
+    description: "Wildlife & Tea Gardens",
   },
 ];
 
@@ -74,13 +75,13 @@ const testimonials = [
     name: "Amit Kumar",
     location: "Delhi",
     rating: 5,
-    text: "Excellent service! The car was clean and the driver was very professional. Highly recommended for Darjeeling tours.",
+    text: "Excellent service! The car was clean and the driver was very professional. Highly recommended for Darjeeling & Sikkim tours.",
   },
   {
     name: "Priya Sharma",
     location: "Mumbai",
     rating: 5,
-    text: "Best travel agency in Darjeeling. They arranged everything perfectly for our family trip. Will definitely book again!",
+    text: "Best travel agency for Darjeeling & Sikkim. They arranged everything perfectly for our family trip. Will definitely book again!",
   },
   {
     name: "Rahul Verma",
@@ -116,12 +117,12 @@ const reasons = [
 export default function HomePage() {
   return (
     <div className="pt-20">
-      <section className="relative flex min-h-screen items-center justify-center overflow-hidden px-3 py-8 sm:px-4 sm:py-12">
+      <section id="booking" className="relative flex min-h-screen items-center justify-center overflow-hidden px-3 py-8 sm:px-4 sm:py-12">
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
             backgroundImage:
-              "url('https://images.unsplash.com/photo-1585898175463-4bb8b8a9dea2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1920')",
+              "url('https://images.unsplash.com/photo-1622308644420-67b56892ec01?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1920')",
           }}
         >
           <div className="absolute inset-0 bg-gradient-to-r from-primary/90 to-primary/70" />
@@ -134,10 +135,10 @@ export default function HomePage() {
                 className="mb-4 text-white sm:mb-6"
                 style={{ fontSize: "clamp(1.5rem, 5vw, 3.5rem)", fontWeight: 700, lineHeight: 1.2 }}
               >
-                Explore Darjeeling with Comfort & Trust
+                Explore Darjeeling & Sikkim with Comfort & Trust
               </h1>
               <p className="mb-4 text-base text-white/90 sm:mb-6 sm:text-lg md:text-xl">
-                Reliable car rental & travel services in the heart of Darjeeling
+                Reliable car rental & travel services across Darjeeling & Sikkim
               </p>
 
               <div className="mb-6 flex items-center justify-center gap-1.5 text-sm text-white sm:gap-2 sm:text-base lg:justify-start">
@@ -210,8 +211,8 @@ export default function HomePage() {
           <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
             <div className="relative pb-4 pr-4 sm:pb-0 sm:pr-0">
               <Image
-                src="https://images.unsplash.com/photo-1545324367-8997ba3b801e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800"
-                alt="Darjeeling"
+                src="https://images.unsplash.com/photo-1626621331169-5f34be280ed9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800"
+                alt="Darjeeling & Sikkim"
                 width={800}
                 height={800}
                 className="rounded-2xl shadow-2xl"
@@ -234,13 +235,13 @@ export default function HomePage() {
                 About Jericho Tour & Travels
               </h2>
               <p className="mb-6 text-muted-foreground">
-                Located in the scenic Rangbull, Darjeeling, we have been serving travelers for over 5 years with
-                dedication and passion. Our mission is to make your journey memorable with our reliable services and
-                local expertise.
+                Based in Rangbull, Darjeeling, we have been serving travelers across Darjeeling and Sikkim for over 5
+                years with dedication and passion. From the misty tea gardens of Darjeeling to the serene monasteries
+                of Sikkim, we know every corner of this beautiful region.
               </p>
               <p className="mb-8 text-muted-foreground">
                 From car rentals to complete travel packages, we handle everything to ensure you have a stress-free and
-                enjoyable experience exploring the beautiful hills of Darjeeling and beyond.
+                enjoyable experience exploring the majestic Eastern Himalayas.
               </p>
               <div className="grid grid-cols-2 gap-6">
                 <div>
@@ -264,15 +265,16 @@ export default function HomePage() {
               Popular Destinations
             </h2>
             <p className="mx-auto mt-2 max-w-2xl text-sm text-muted-foreground sm:mt-4 sm:text-base">
-              Discover the most beautiful places in Northeast India
+              Discover the most beautiful places across Darjeeling & Sikkim
             </p>
           </div>
 
           <div className="grid grid-cols-2 gap-3 sm:gap-6 md:gap-8 lg:grid-cols-4">
-            {destinations.map((destination) => (
-              <article
-                key={destination.name}
-                className="group relative h-48 cursor-pointer overflow-hidden rounded-xl shadow-lg transition-transform hover:scale-[1.02] sm:h-80 sm:rounded-2xl"
+            {destinationsList.map((destination) => (
+              <a
+                key={destination.slug}
+                href={`/destinations/${destination.slug}`}
+                className="group relative block h-48 overflow-hidden rounded-xl shadow-lg transition-transform hover:scale-[1.02] sm:h-80 sm:rounded-2xl"
               >
                 <Image
                   src={destination.image}
@@ -285,8 +287,11 @@ export default function HomePage() {
                 <div className="absolute inset-x-0 bottom-0 p-3 text-white sm:p-6">
                   <h3 className="text-sm sm:text-2xl" style={{ fontWeight: 700 }}>{destination.name}</h3>
                   <p className="text-xs text-white/90 sm:text-base">{destination.description}</p>
+                  <span className="mt-1 inline-block text-[0.625rem] font-semibold text-accent sm:mt-2 sm:text-xs">
+                    Explore →
+                  </span>
                 </div>
-              </article>
+              </a>
             ))}
           </div>
         </div>
@@ -372,13 +377,13 @@ export default function HomePage() {
             Ready to explore the beautiful hills? Contact us now and let&apos;s make your journey unforgettable!
           </p>
           <div className="flex flex-col justify-center gap-4 sm:flex-row">
-            <Link
-              href="/enquiry"
+            <a
+              href="#booking"
               className="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-8 py-4 text-white transition-all duration-300 hover:scale-105 hover:bg-accent/90"
             >
-              <span>Send Enquiry</span>
+              <span>Book Now</span>
               <MapPin className="size-5" />
-            </Link>
+            </a>
             <a
               href="tel:+919876543210"
               className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-8 py-4 text-primary transition-all duration-300 hover:scale-105 hover:bg-white/90"

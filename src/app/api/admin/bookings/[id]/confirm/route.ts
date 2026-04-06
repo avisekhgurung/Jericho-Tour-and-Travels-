@@ -15,6 +15,7 @@ export async function POST(
     updatedAt: new Date(),
   };
   if (body.invoiceAmount) updates.invoiceAmount = body.invoiceAmount;
+  if (body.adminNotes) updates.adminNotes = body.adminNotes;
 
   const [booking] = await db
     .update(bookings)
@@ -26,7 +27,12 @@ export async function POST(
     return Response.json({ error: "Booking not found" }, { status: 404 });
   }
 
-  await sendBookingConfirmation(booking);
+  const emailResult = await sendBookingConfirmation(booking);
 
-  return Response.json({ success: true, booking });
+  return Response.json({
+    success: true,
+    booking,
+    emailSent: emailResult.success,
+    emailError: emailResult.error || null,
+  });
 }

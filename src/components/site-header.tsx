@@ -10,7 +10,6 @@ const navLinks = [
   { name: "Services", href: "/#services" },
   { name: "Destinations", href: "/#destinations" },
   { name: "About", href: "/#about" },
-  { name: "Contact", href: "/enquiry" },
 ];
 
 export function SiteHeader() {
@@ -44,7 +43,7 @@ export function SiteHeader() {
             <span className="block text-primary" style={{ fontSize: "clamp(1rem, 3vw, 1.5rem)", fontWeight: 700, lineHeight: 1.2 }}>
               Jericho Tour & Travels
             </span>
-            <span className="hidden text-xs text-muted-foreground sm:block">Rangbull, Darjeeling</span>
+            <span className="hidden text-xs text-muted-foreground sm:block">Darjeeling & Sikkim</span>
           </span>
         </Link>
 

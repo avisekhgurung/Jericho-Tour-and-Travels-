@@ -9,7 +9,7 @@ export function SiteFooter() {
           <div>
             <h3 style={{ fontSize: "1.25rem", fontWeight: 700, marginBottom: "1rem" }}>Jericho Tour & Travels</h3>
             <p className="mb-4 text-white/80">
-              Your trusted travel partner in Darjeeling with 5+ years of experience
+              Your trusted travel partner across Darjeeling & Sikkim with 5+ years of experience
             </p>
             <div className="flex gap-4">
               {[Globe, MessageCircle, Share2].map((Icon, idx) => (
@@ -44,8 +44,8 @@ export function SiteFooter() {
                 </Link>
               </li>
               <li>
-                <Link href="/enquiry" className="text-white/80 transition-colors hover:text-accent">
-                  Contact
+                <Link href="/#about" className="text-white/80 transition-colors hover:text-accent">
+                  About
                 </Link>
               </li>
             </ul>
@@ -55,10 +55,9 @@ export function SiteFooter() {
             <h4 style={{ fontSize: "1.125rem", fontWeight: 600, marginBottom: "1rem" }}>Services</h4>
             <ul className="space-y-2 text-white/80">
               <li>Car Rental</li>
+              <li>Tour & Travels</li>
               <li>Hotel Booking</li>
-              <li>Bus Booking</li>
-              <li>Travel Packages</li>
-              <li>Tour Guide</li>
+              <li>Adventure Activities</li>
             </ul>
           </div>
 

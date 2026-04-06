@@ -19,7 +19,12 @@ export async function POST(
     return Response.json({ error: "Booking not found" }, { status: 404 });
   }
 
-  await sendBookingRejection(booking);
+  const emailResult = await sendBookingRejection(booking);
 
-  return Response.json({ success: true, booking });
+  return Response.json({
+    success: true,
+    booking,
+    emailSent: emailResult.success,
+    emailError: emailResult.error || null,
+  });
 }
