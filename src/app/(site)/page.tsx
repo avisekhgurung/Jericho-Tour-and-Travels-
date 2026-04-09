@@ -150,14 +150,14 @@ export default function HomePage() {
 
               <div className="flex flex-col justify-center gap-3 sm:flex-row sm:gap-4 lg:justify-start">
                 <a
-                  href="tel:+919876543210"
+                  href="tel:+917063893698"
                   className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm text-primary transition-all duration-300 hover:scale-105 hover:bg-white/90 sm:px-8 sm:py-4 sm:text-base"
                 >
                   <Phone className="size-4 sm:size-5" />
                   <span>Call Now</span>
                 </a>
                 <a
-                  href="https://wa.me/919876543210"
+                  href="https://wa.me/917063893698"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center justify-center gap-2 rounded-full bg-green-500 px-5 py-2.5 text-sm text-white transition-all duration-300 hover:scale-105 hover:bg-green-600 sm:px-8 sm:py-4 sm:text-base"
@@ -385,11 +385,11 @@ export default function HomePage() {
               <MapPin className="size-5" />
             </a>
             <a
-              href="tel:+919876543210"
+              href="tel:+917063893698"
               className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-8 py-4 text-primary transition-all duration-300 hover:scale-105 hover:bg-white/90"
             >
               <Phone className="size-5" />
-              <span>Call +91 98765 43210</span>
+              <span>Call +91 70638 93698</span>
             </a>
           </div>
         </div>

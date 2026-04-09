@@ -8,7 +8,6 @@ import {
   LogOut,
   Menu,
   MessageSquare,
-  Plane,
   X,
 } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -50,9 +49,7 @@ function AdminShell({ children, pathname }: { children: React.ReactNode; pathnam
       >
         <div className="flex h-16 shrink-0 items-center justify-between border-b border-white/10 px-5">
           <Link href="/admin" className="flex items-center gap-2.5">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#E5A832]">
-              <Plane className="size-4 text-primary" />
-            </div>
+            <img src="/logo.png" alt="Jericho" className="h-10 w-10 rounded-full object-cover" />
             <div>
               <span className="block text-sm font-bold leading-tight text-white">Jericho</span>
               <span className="block text-[10px] leading-tight text-white/50">Admin Panel</span>

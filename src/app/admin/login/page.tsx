@@ -2,8 +2,6 @@
 
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Plane } from "lucide-react";
-
 export default function AdminLoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
@@ -39,9 +37,7 @@ export default function AdminLoginPage() {
     <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4">
       <div className="w-full max-w-sm sm:max-w-md">
         <div className="mb-6 text-center sm:mb-8">
-          <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-[#E5A832] sm:mb-4 sm:h-14 sm:w-14">
-            <Plane className="size-6 text-primary sm:size-7" />
-          </div>
+          <img src="/logo.png" alt="Jericho Tour & Travel" className="mx-auto mb-3 h-20 w-20 rounded-full object-cover sm:mb-4 sm:h-24 sm:w-24" />
           <h1 className="text-xl font-bold text-primary sm:text-2xl">Admin Login</h1>
           <p className="mt-1 text-xs text-gray-500 sm:text-sm">Jericho Tour & Travels</p>
         </div>

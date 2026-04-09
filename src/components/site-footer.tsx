@@ -7,7 +7,10 @@ export function SiteFooter() {
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
           <div>
-            <h3 style={{ fontSize: "1.25rem", fontWeight: 700, marginBottom: "1rem" }}>Jericho Tour & Travels</h3>
+            <div className="mb-3 flex items-center gap-3">
+              <img src="/logo.png" alt="Jericho Tour & Travel" className="h-12 w-12 rounded-full object-cover" />
+              <h3 style={{ fontSize: "1.25rem", fontWeight: 700 }}>Jericho Tour & Travels</h3>
+            </div>
             <p className="mb-4 text-white/80">
               Your trusted travel partner across Darjeeling & Sikkim with 5+ years of experience
             </p>
@@ -70,14 +73,14 @@ export function SiteFooter() {
               </li>
               <li className="flex items-center gap-3">
                 <Phone className="size-5 shrink-0 text-accent" />
-                <a href="tel:+919876543210" className="text-white/80 transition-colors hover:text-accent">
-                  +91 98765 43210
+                <a href="tel:+917063893698" className="text-white/80 transition-colors hover:text-accent">
+                  +91 70638 93698
                 </a>
               </li>
               <li className="flex items-center gap-3">
                 <Mail className="size-5 shrink-0 text-accent" />
-                <a href="mailto:info@jerichotours.com" className="text-white/80 transition-colors hover:text-accent">
-                  info@jerichotours.com
+                <a href="mailto:jerichotourandtravels@gmail.com" className="text-white/80 transition-colors hover:text-accent">
+                  jerichotourandtravels@gmail.com
                 </a>
               </li>
             </ul>

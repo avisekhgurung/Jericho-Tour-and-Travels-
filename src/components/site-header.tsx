@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Menu, Phone, Plane, X } from "lucide-react";
+import { Menu, Phone, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 
@@ -34,16 +34,18 @@ export function SiteHeader() {
         floating ? "bg-transparent" : "bg-white/95 shadow-lg backdrop-blur-md"
       }`}
     >
-      <div className="mx-auto flex h-20 w-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-4 sm:h-20 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center gap-2 sm:gap-3">
-          <span className="rounded-full bg-primary p-2">
-            <Plane className="size-5 text-white sm:size-6" />
-          </span>
+          <img
+            src="/logo.png"
+            alt="Jericho Tour & Travel"
+            className="h-11 w-11 rounded-full object-cover sm:h-14 sm:w-14"
+          />
           <span>
-            <span className="block text-primary" style={{ fontSize: "clamp(1rem, 3vw, 1.5rem)", fontWeight: 700, lineHeight: 1.2 }}>
+            <span className="block text-primary" style={{ fontSize: "clamp(0.875rem, 3vw, 1.35rem)", fontWeight: 700, lineHeight: 1.2 }}>
               Jericho Tour & Travels
             </span>
-            <span className="hidden text-xs text-muted-foreground sm:block">Darjeeling & Sikkim</span>
+            <span className="hidden text-[11px] text-muted-foreground sm:block">Darjeeling & Sikkim</span>
           </span>
         </Link>
 
@@ -58,7 +60,7 @@ export function SiteHeader() {
             </Link>
           ))}
           <a
-            href="tel:+919876543210"
+            href="tel:+917063893698"
             className="inline-flex items-center gap-2 rounded-full bg-accent px-6 py-2.5 text-white transition-all duration-300 hover:scale-105 hover:bg-accent/90"
           >
             <Phone className="size-4" />
@@ -90,7 +92,7 @@ export function SiteHeader() {
               </Link>
             ))}
             <a
-              href="tel:+919876543210"
+              href="tel:+917063893698"
               className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-accent px-6 py-3 text-white transition-all hover:bg-accent/90"
             >
               <Phone className="size-4" />

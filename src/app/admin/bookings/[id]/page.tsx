@@ -127,7 +127,7 @@ export default function BookingDetailPage() {
     doc.setFontSize(10);
     doc.setFont("helvetica", "normal");
     doc.text("Darjeeling & Sikkim | Rangbull, West Bengal", pageW / 2, 28, { align: "center" });
-    doc.text("Phone: +91 98765 43210 | WhatsApp: +91 98765 43210", pageW / 2, 34, { align: "center" });
+    doc.text("Phone: +91 70638 93698 | WhatsApp: +91 70638 93698", pageW / 2, 34, { align: "center" });
 
     // Invoice title section
     let y = 55;
@@ -264,7 +264,7 @@ export default function BookingDetailPage() {
     doc.setFontSize(8);
     doc.setFont("helvetica", "normal");
     doc.text("Jericho Tour & Travels | Rangbull, Darjeeling, West Bengal, India", pageW / 2, footerY, { align: "center" });
-    doc.text("Phone: +91 98765 43210 | Email: jerichotourandtravels@gmail.com", pageW / 2, footerY + 5, { align: "center" });
+    doc.text("Phone: +91 70638 93698 | Email: jerichotourandtravels@gmail.com", pageW / 2, footerY + 5, { align: "center" });
     doc.text("Thank you for choosing Jericho Tour & Travels!", pageW / 2, footerY + 12, { align: "center" });
 
     // Save
