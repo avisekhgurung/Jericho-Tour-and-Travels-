@@ -50,10 +50,10 @@ const destinationsList = [
     description: "Queen of Hills",
   },
   {
-    slug: "gangtok",
-    name: "Gangtok",
+    slug: "sikkim",
+    name: "Sikkim",
     image: "/gangtok.jpg",
-    description: "Capital of Sikkim",
+    description: "Gangtok, Tsomgo, Nathula & North Sikkim",
   },
   {
     slug: "pelling",
@@ -64,30 +64,29 @@ const destinationsList = [
   {
     slug: "dooars",
     name: "Dooars",
-    image:
-      "https://images.unsplash.com/photo-1564760055775-d63b17a55c44?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800",
+    image: "/destinations/dooars/jaldapara.jpg",
     description: "Wildlife & Tea Gardens",
   },
 ];
 
 const testimonials = [
   {
-    name: "Amit Kumar",
-    location: "Delhi",
+    name: "Khalid Hasan",
+    location: "Local Guide · 15 reviews",
     rating: 5,
-    text: "Excellent service! The car was clean and the driver was very professional. Highly recommended for Darjeeling & Sikkim tours.",
+    text: "I've known Satish Tamang Bhai since a long time, and he has always been exceptionally friendly, kind, and reliable. He's not just a great driver and tour guide but also a genuinely good person. His warm nature, professionalism, and caring attitude make every trip enjoyable and memorable. Truly one of the best!",
   },
   {
-    name: "Priya Sharma",
-    location: "Mumbai",
+    name: "Abhilash Bhuyan",
+    location: "Local Guide · 21 reviews",
     rating: 5,
-    text: "Best travel agency for Darjeeling & Sikkim. They arranged everything perfectly for our family trip. Will definitely book again!",
+    text: "We had booked a car for 4 days of North Sikkim tour over just a phone call with Mr. Satish Tamang, owner of Jericho Tours, and he handled the entire itinerary without any hassles. The driver of the car was well-behaved and made our trip very comfortable.",
   },
   {
-    name: "Rahul Verma",
-    location: "Bangalore",
+    name: "Avijit Majhi",
+    location: "Local Guide · 25 reviews",
     rating: 5,
-    text: "Great experience with Jericho Tours. Affordable prices and excellent customer service. Thank you team!",
+    text: "We visited Darjeeling 4-5 times with Satish Ji — he is a very good person besides being a travel guide. Always on time and has great knowledge about Darjeeling. He provides various types of cars, mainly for local tours around Darjeeling. Highly recommend him for Darjeeling tours.",
   },
 ];
 
@@ -150,14 +149,14 @@ export default function HomePage() {
 
               <div className="flex flex-col justify-center gap-3 sm:flex-row sm:gap-4 lg:justify-start">
                 <a
-                  href="tel:+917063893698"
+                  href="tel:+917478029354"
                   className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm text-primary transition-all duration-300 hover:scale-105 hover:bg-white/90 sm:px-8 sm:py-4 sm:text-base"
                 >
                   <Phone className="size-4 sm:size-5" />
                   <span>Call Now</span>
                 </a>
                 <a
-                  href="https://wa.me/917063893698"
+                  href="https://wa.me/917478029354"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center justify-center gap-2 rounded-full bg-green-500 px-5 py-2.5 text-sm text-white transition-all duration-300 hover:scale-105 hover:bg-green-600 sm:px-8 sm:py-4 sm:text-base"
@@ -305,7 +304,7 @@ export default function HomePage() {
             <h2 style={{ fontSize: "clamp(1.75rem, 5vw, 2.5rem)", fontWeight: 700, color: "#0B3C5D" }}>
               What Our Clients Say
             </h2>
-            <p className="mt-4 text-muted-foreground">Trusted by travelers from across India</p>
+            <p className="mt-4 text-muted-foreground">Real, verified reviews from our Google customers</p>
           </div>
 
           <div className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-3">
@@ -316,12 +315,23 @@ export default function HomePage() {
                     <Star key={idx} className="size-5 fill-yellow-400 text-yellow-400" />
                   ))}
                 </div>
-                <p className="mb-6 text-center text-muted-foreground italic">
+                <p className="mb-6 text-center text-sm text-muted-foreground italic sm:text-base">
                   &ldquo;{testimonial.text}&rdquo;
                 </p>
                 <div className="text-center">
                   <p style={{ fontWeight: 600, color: "#0B3C5D" }}>{testimonial.name}</p>
                   <p className="text-sm text-muted-foreground">{testimonial.location}</p>
+                  <p className="mt-2 inline-flex items-center gap-1 rounded-full bg-gray-50 px-2.5 py-1 text-[0.7rem] font-medium text-gray-600">
+                    <span className="font-bold">
+                      <span style={{ color: "#4285F4" }}>G</span>
+                      <span style={{ color: "#EA4335" }}>o</span>
+                      <span style={{ color: "#FBBC05" }}>o</span>
+                      <span style={{ color: "#4285F4" }}>g</span>
+                      <span style={{ color: "#34A853" }}>l</span>
+                      <span style={{ color: "#EA4335" }}>e</span>
+                    </span>
+                    <span>Review</span>
+                  </p>
                 </div>
               </article>
             ))}
@@ -385,11 +395,11 @@ export default function HomePage() {
               <MapPin className="size-5" />
             </a>
             <a
-              href="tel:+917063893698"
+              href="tel:+917478029354"
               className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-8 py-4 text-primary transition-all duration-300 hover:scale-105 hover:bg-white/90"
             >
               <Phone className="size-5" />
-              <span>Call +91 70638 93698</span>
+              <span>Call +91 74780 29354</span>
             </a>
           </div>
         </div>

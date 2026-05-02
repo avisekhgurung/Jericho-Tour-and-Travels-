@@ -60,7 +60,7 @@ export function SiteHeader() {
             </Link>
           ))}
           <a
-            href="tel:+917063893698"
+            href="tel:+917478029354"
             className="inline-flex items-center gap-2 rounded-full bg-accent px-6 py-2.5 text-white transition-all duration-300 hover:scale-105 hover:bg-accent/90"
           >
             <Phone className="size-4" />
@@ -92,7 +92,7 @@ export function SiteHeader() {
               </Link>
             ))}
             <a
-              href="tel:+917063893698"
+              href="tel:+917478029354"
               className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-accent px-6 py-3 text-white transition-all hover:bg-accent/90"
             >
               <Phone className="size-4" />

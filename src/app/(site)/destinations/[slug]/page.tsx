@@ -117,6 +117,9 @@ export default async function DestinationDetailPage({
                   </div>
                 ))}
               </div>
+              <p className="mt-3 text-[0.7rem] text-gray-400 sm:text-xs">
+                Photos: Wikimedia Commons contributors (CC BY-SA / Public Domain).
+              </p>
             </div>
 
             {/* Sidebar */}
@@ -129,13 +132,13 @@ export default async function DestinationDetailPage({
                   </p>
                   <div className="space-y-3">
                     <a
-                      href="tel:+917063893698"
+                      href="tel:+917478029354"
                       className="flex w-full items-center justify-center gap-2 rounded-lg bg-accent py-3 text-sm font-semibold text-white transition-all hover:bg-accent/90"
                     >
                       <Phone className="size-4" /> Call Now
                     </a>
                     <a
-                      href="https://wa.me/917063893698"
+                      href="https://wa.me/917478029354"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex w-full items-center justify-center gap-2 rounded-lg bg-green-500 py-3 text-sm font-semibold text-white transition-all hover:bg-green-600"

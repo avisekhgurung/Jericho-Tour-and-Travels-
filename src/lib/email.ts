@@ -195,7 +195,7 @@ export async function sendBookingConfirmation(booking: BookingData): Promise<{ s
           <div style="background: #0b3c5d; color: white; padding: 20px 24px; border-radius: 0 0 8px 8px; text-align: center;">
             <p style="margin: 0 0 4px; font-size: 14px; font-weight: 600;">Jericho Tour & Travels</p>
             <p style="margin: 0 0 2px; font-size: 12px; color: #94a3b8;">Rangbull, Darjeeling, West Bengal</p>
-            <p style="margin: 0; font-size: 12px; color: #94a3b8;">Phone: +91 70638 93698 | WhatsApp: +91 70638 93698</p>
+            <p style="margin: 0; font-size: 12px; color: #94a3b8;">Phone: +91 74780 29354 | WhatsApp: +91 74780 29354</p>
           </div>
         </div>
       `,
@@ -229,8 +229,8 @@ export async function sendBookingRejection(booking: BookingData): Promise<{ succ
             <p style="color: #6b7280; line-height: 1.6;">Unfortunately, we are unable to process your booking <strong>#JTT-${String(booking.id).padStart(4, "0")}</strong> at this time.</p>
             <p style="color: #6b7280; line-height: 1.6;">Please contact us directly and we will be happy to help you find an alternative arrangement.</p>
             <div style="background: #f9fafb; border-radius: 8px; padding: 14px; margin: 16px 0;">
-              <p style="margin: 0; font-size: 14px;"><strong>Phone:</strong> +91 70638 93698</p>
-              <p style="margin: 4px 0 0; font-size: 14px;"><strong>WhatsApp:</strong> +91 70638 93698</p>
+              <p style="margin: 0; font-size: 14px;"><strong>Phone:</strong> +91 74780 29354</p>
+              <p style="margin: 4px 0 0; font-size: 14px;"><strong>WhatsApp:</strong> +91 74780 29354</p>
             </div>
             <p style="color: #6b7280;">We apologize for any inconvenience.</p>
             <p>Warm regards,<br><strong>Jericho Tour & Travels</strong></p>
