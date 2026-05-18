@@ -1,4 +1,4 @@
-import { pgTable, serial, text, integer, timestamp, jsonb } from "drizzle-orm/pg-core";
+import { pgTable, serial, text, integer, timestamp, jsonb, boolean } from "drizzle-orm/pg-core";
 
 export type InvoiceItem = {
   description: string;
@@ -74,4 +74,35 @@ export const adminUsers = pgTable("admin_users", {
   email: text("email").notNull().unique(),
   passwordHash: text("password_hash").notNull(),
   createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
+// Cached Google reviews pulled from SerpAPI on a 6-hour schedule.
+export const googleReviews = pgTable("google_reviews", {
+  id: serial("id").primaryKey(),
+  reviewId: text("review_id").notNull().unique(), // Google's review_id — used for dedup/upsert
+  rating: integer("rating").notNull(),
+  text: text("text"),
+  reviewDate: timestamp("review_date"), // ISO date of the review from Google
+  reviewDateLabel: text("review_date_label"), // human label e.g. "7 months ago"
+  authorName: text("author_name").notNull(),
+  authorThumbnail: text("author_thumbnail"),
+  authorLink: text("author_link"),
+  authorIsLocalGuide: boolean("author_is_local_guide").notNull().default(false),
+  authorReviewCount: integer("author_review_count"),
+  position: integer("position"), // position in the SerpAPI response (top-first)
+  likes: integer("likes").notNull().default(0),
+  hidden: boolean("hidden").notNull().default(false), // admin can hide bad reviews from the site
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+});
+
+// Singleton meta row tracking last fetch + business-level stats.
+export const googleReviewsMeta = pgTable("google_reviews_meta", {
+  id: serial("id").primaryKey(),
+  businessTitle: text("business_title"),
+  businessRating: integer("business_rating_x10"), // store rating * 10 to keep integer (e.g. 50 = 5.0)
+  totalReviews: integer("total_reviews"),
+  lastFetchedAt: timestamp("last_fetched_at"),
+  lastError: text("last_error"),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });

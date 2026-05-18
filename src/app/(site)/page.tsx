@@ -14,6 +14,11 @@ import {
 } from "lucide-react";
 import { HeroBookingForm } from "@/components/hero-booking-form";
 import { AdventureSection } from "@/components/adventure-section";
+import { getCachedReviews } from "@/lib/google-reviews";
+
+// Re-render the homepage at most every 6 hours so it picks up newly-cached
+// Google reviews without hitting the DB on every visit.
+export const revalidate = 21600;
 
 const services = [
   {
@@ -69,24 +74,31 @@ const destinationsList = [
   },
 ];
 
-const testimonials = [
+// Hardcoded fallback if the DB is empty (first deploy before cron runs, or SerpAPI is down).
+const fallbackTestimonials = [
   {
     name: "Khalid Hasan",
     location: "Local Guide · 15 reviews",
     rating: 5,
     text: "I've known Satish Tamang Bhai since a long time, and he has always been exceptionally friendly, kind, and reliable. He's not just a great driver and tour guide but also a genuinely good person. His warm nature, professionalism, and caring attitude make every trip enjoyable and memorable. Truly one of the best!",
+    thumbnail: null as string | null,
+    link: null as string | null,
   },
   {
     name: "Abhilash Bhuyan",
     location: "Local Guide · 21 reviews",
     rating: 5,
     text: "We had booked a car for 4 days of North Sikkim tour over just a phone call with Mr. Satish Tamang, owner of Jericho Tours, and he handled the entire itinerary without any hassles. The driver of the car was well-behaved and made our trip very comfortable.",
+    thumbnail: null as string | null,
+    link: null as string | null,
   },
   {
     name: "Avijit Majhi",
     location: "Local Guide · 25 reviews",
     rating: 5,
     text: "We visited Darjeeling 4-5 times with Satish Ji — he is a very good person besides being a travel guide. Always on time and has great knowledge about Darjeeling. He provides various types of cars, mainly for local tours around Darjeeling. Highly recommend him for Darjeeling tours.",
+    thumbnail: null as string | null,
+    link: null as string | null,
   },
 ];
 
@@ -113,7 +125,25 @@ const reasons = [
   },
 ];
 
-export default function HomePage() {
+export default async function HomePage() {
+  // Pull cached Google reviews. Falls back to the hand-written set if the DB is empty.
+  const bundle = await getCachedReviews(6).catch(() => null);
+  const testimonials =
+    bundle && bundle.reviews.length > 0
+      ? bundle.reviews.map((r) => ({
+          name: r.authorName,
+          location: r.authorIsLocalGuide
+            ? `Local Guide · ${r.authorReviewCount ?? 0} reviews`
+            : `${r.authorReviewCount ?? 0} reviews`,
+          rating: r.rating,
+          text: r.text ?? "",
+          thumbnail: r.authorThumbnail,
+          link: r.authorLink,
+        }))
+      : fallbackTestimonials;
+  const businessRating = bundle?.meta.businessRating ?? 5;
+  const totalReviews = bundle?.meta.totalReviews ?? null;
+
   return (
     <div className="pt-20">
       <section id="booking" className="relative flex min-h-screen items-center justify-center overflow-hidden px-3 py-8 sm:px-4 sm:py-12">
@@ -304,35 +334,69 @@ export default function HomePage() {
             <h2 style={{ fontSize: "clamp(1.75rem, 5vw, 2.5rem)", fontWeight: 700, color: "#0B3C5D" }}>
               What Our Clients Say
             </h2>
-            <p className="mt-4 text-muted-foreground">Real, verified reviews from our Google customers</p>
+            <p className="mt-4 text-muted-foreground">Real, verified reviews — auto-synced from Google every few hours</p>
+            {totalReviews != null && (
+              <div className="mt-4 inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 shadow">
+                <span className="text-lg font-bold" style={{ color: "#0B3C5D" }}>{businessRating.toFixed(1)}</span>
+                <span className="flex">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <Star key={i} className="size-4 fill-yellow-400 text-yellow-400" />
+                  ))}
+                </span>
+                <span className="text-sm text-muted-foreground">
+                  · {totalReviews} reviews on
+                </span>
+                <span className="text-sm font-bold">
+                  <span style={{ color: "#4285F4" }}>G</span>
+                  <span style={{ color: "#EA4335" }}>o</span>
+                  <span style={{ color: "#FBBC05" }}>o</span>
+                  <span style={{ color: "#4285F4" }}>g</span>
+                  <span style={{ color: "#34A853" }}>l</span>
+                  <span style={{ color: "#EA4335" }}>e</span>
+                </span>
+              </div>
+            )}
           </div>
 
-          <div className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-3">
-            {testimonials.map((testimonial) => (
-              <article key={testimonial.name} className="rounded-xl bg-white p-5 shadow-lg sm:rounded-2xl sm:p-8">
-                <div className="mb-4 flex justify-center">
-                  {Array.from({ length: testimonial.rating }).map((_, idx) => (
-                    <Star key={idx} className="size-5 fill-yellow-400 text-yellow-400" />
+          <div className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {testimonials.map((testimonial, idx) => (
+              <article key={`${testimonial.name}-${idx}`} className="flex flex-col rounded-xl bg-white p-5 shadow-lg sm:rounded-2xl sm:p-7">
+                <div className="mb-3 flex items-center gap-3">
+                  {testimonial.thumbnail ? (
+                    <Image
+                      src={testimonial.thumbnail}
+                      alt={testimonial.name}
+                      width={48}
+                      height={48}
+                      className="size-12 rounded-full object-cover"
+                      unoptimized
+                    />
+                  ) : (
+                    <div className="flex size-12 items-center justify-center rounded-full bg-primary/10 text-base font-bold text-primary">
+                      {testimonial.name.charAt(0)}
+                    </div>
+                  )}
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate text-sm font-semibold" style={{ color: "#0B3C5D" }}>{testimonial.name}</p>
+                    <p className="truncate text-xs text-muted-foreground">{testimonial.location}</p>
+                  </div>
+                  <span className="text-sm font-bold" aria-label="Google review">
+                    <span style={{ color: "#4285F4" }}>G</span>
+                    <span style={{ color: "#EA4335" }}>o</span>
+                    <span style={{ color: "#FBBC05" }}>o</span>
+                    <span style={{ color: "#4285F4" }}>g</span>
+                    <span style={{ color: "#34A853" }}>l</span>
+                    <span style={{ color: "#EA4335" }}>e</span>
+                  </span>
+                </div>
+                <div className="mb-3 flex">
+                  {Array.from({ length: testimonial.rating }).map((_, i) => (
+                    <Star key={i} className="size-4 fill-yellow-400 text-yellow-400" />
                   ))}
                 </div>
-                <p className="mb-6 text-center text-sm text-muted-foreground italic sm:text-base">
+                <p className="text-sm text-muted-foreground italic">
                   &ldquo;{testimonial.text}&rdquo;
                 </p>
-                <div className="text-center">
-                  <p style={{ fontWeight: 600, color: "#0B3C5D" }}>{testimonial.name}</p>
-                  <p className="text-sm text-muted-foreground">{testimonial.location}</p>
-                  <p className="mt-2 inline-flex items-center gap-1 rounded-full bg-gray-50 px-2.5 py-1 text-[0.7rem] font-medium text-gray-600">
-                    <span className="font-bold">
-                      <span style={{ color: "#4285F4" }}>G</span>
-                      <span style={{ color: "#EA4335" }}>o</span>
-                      <span style={{ color: "#FBBC05" }}>o</span>
-                      <span style={{ color: "#4285F4" }}>g</span>
-                      <span style={{ color: "#34A853" }}>l</span>
-                      <span style={{ color: "#EA4335" }}>e</span>
-                    </span>
-                    <span>Review</span>
-                  </p>
-                </div>
               </article>
             ))}
           </div>

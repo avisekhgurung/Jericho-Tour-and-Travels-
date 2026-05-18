@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { BookOpen, MessageSquare, CheckCircle, Clock } from "lucide-react";
+import { AdminReviewsSync } from "@/components/admin-reviews-sync";
 
 type Stats = {
   bookings: { total: number; pending: number; confirmed: number; rejected: number };
@@ -47,6 +48,8 @@ export default function AdminDashboard() {
 
   return (
     <div className="space-y-4 sm:space-y-6">
+      <AdminReviewsSync />
+
       {/* Stats Cards */}
       <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
         <div className="rounded-xl bg-white p-3.5 shadow-sm sm:p-5">
