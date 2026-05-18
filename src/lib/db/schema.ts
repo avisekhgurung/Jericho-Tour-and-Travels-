@@ -1,4 +1,11 @@
-import { pgTable, serial, text, integer, timestamp } from "drizzle-orm/pg-core";
+import { pgTable, serial, text, integer, timestamp, jsonb } from "drizzle-orm/pg-core";
+
+export type InvoiceItem = {
+  description: string;
+  quantity: number;
+  rate: number; // in paisa (per unit)
+  amount: number; // in paisa (quantity * rate)
+};
 
 export const bookings = pgTable("bookings", {
   id: serial("id").primaryKey(),
@@ -34,6 +41,30 @@ export const enquiries = pgTable("enquiries", {
   travelDate: text("travel_date").notNull(),
   message: text("message"),
   adminNotes: text("admin_notes"),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+});
+
+export const invoices = pgTable("invoices", {
+  id: serial("id").primaryKey(),
+  invoiceNumber: text("invoice_number").notNull().unique(), // e.g. "MAN-2026-001"
+  status: text("status").notNull().default("draft"), // 'draft' | 'paid' | 'cancelled'
+  // Customer
+  customerName: text("customer_name").notNull(),
+  customerPhone: text("customer_phone").notNull(),
+  customerEmail: text("customer_email"),
+  customerAddress: text("customer_address"),
+  // Line items
+  items: jsonb("items").$type<InvoiceItem[]>().notNull(),
+  // Money — all stored in paisa (integer)
+  subtotal: integer("subtotal").notNull(),
+  taxPercent: integer("tax_percent").notNull().default(0), // e.g. 18 for 18% GST
+  taxAmount: integer("tax_amount").notNull().default(0),
+  total: integer("total").notNull(),
+  // Meta
+  invoiceDate: text("invoice_date").notNull(), // ISO date string
+  dueDate: text("due_date"),
+  notes: text("notes"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });

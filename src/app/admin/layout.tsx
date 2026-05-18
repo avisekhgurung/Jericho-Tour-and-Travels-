@@ -5,6 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import {
   BarChart3,
   BookOpen,
+  FileText,
   LogOut,
   Menu,
   MessageSquare,
@@ -15,6 +16,7 @@ import { useEffect, useState } from "react";
 const navItems = [
   { href: "/admin", label: "Dashboard", icon: BarChart3 },
   { href: "/admin/bookings", label: "Bookings", icon: BookOpen },
+  { href: "/admin/invoices", label: "Invoices", icon: FileText },
   // { href: "/admin/enquiries", label: "Enquiries", icon: MessageSquare },
 ];
 

@@ -1,0 +1,20 @@
+CREATE TABLE "invoices" (
+	"id" serial PRIMARY KEY NOT NULL,
+	"invoice_number" text NOT NULL,
+	"status" text DEFAULT 'draft' NOT NULL,
+	"customer_name" text NOT NULL,
+	"customer_phone" text NOT NULL,
+	"customer_email" text,
+	"customer_address" text,
+	"items" jsonb NOT NULL,
+	"subtotal" integer NOT NULL,
+	"tax_percent" integer DEFAULT 0 NOT NULL,
+	"tax_amount" integer DEFAULT 0 NOT NULL,
+	"total" integer NOT NULL,
+	"invoice_date" text NOT NULL,
+	"due_date" text,
+	"notes" text,
+	"created_at" timestamp DEFAULT now() NOT NULL,
+	"updated_at" timestamp DEFAULT now() NOT NULL,
+	CONSTRAINT "invoices_invoice_number_unique" UNIQUE("invoice_number")
+);

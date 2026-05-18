@@ -8,6 +8,13 @@
       "when": 1775402680989,
       "tag": "0000_nice_wendigo",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1779089329584,
+      "tag": "0001_dashing_gabe_jones",
+      "breakpoints": true
     }
   ]
 }
