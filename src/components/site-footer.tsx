@@ -101,6 +101,12 @@ export function SiteFooter() {
                 </a>
               </li>
               <li className="flex items-center gap-3">
+                <Phone className="size-5 shrink-0 text-accent" />
+                <a href="tel:+919002998699" className="text-white/80 transition-colors hover:text-accent">
+                  +91 90029 98699
+                </a>
+              </li>
+              <li className="flex items-center gap-3">
                 <Mail className="size-5 shrink-0 text-accent" />
                 <a href="mailto:jerichotourandtravels@gmail.com" className="text-white/80 transition-colors hover:text-accent">
                   jerichotourandtravels@gmail.com
