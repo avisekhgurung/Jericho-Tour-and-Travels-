@@ -84,9 +84,10 @@ export async function fetchAndCacheReviews(): Promise<{
   // newestFirst keeps fresh reviews on top; we then walk a few pages to also pull older ones with text.
   firstUrl.searchParams.set("sort_by", "newestFirst");
 
-  // Walk up to MAX_PAGES (covers ~24 reviews) per refresh. Costs 1-3 SerpAPI credits per refresh,
-  // which is well inside the 250/mo free tier even with the 6h cron schedule.
-  const MAX_PAGES = 3;
+  // Walk up to MAX_PAGES per refresh. SerpAPI returns ~8 reviews/page, so 5 pages = up to 40
+  // reviews — covers the current 32 with a buffer for the next ~1 year of growth. Costs
+  // 1-5 SerpAPI credits per daily cron run, comfortably inside the 250/mo free tier.
+  const MAX_PAGES = 5;
   const allReviews: SerpReview[] = [];
   let placeInfo: SerpReviewsResponse["place_info"];
   let nextUrl: string | null = firstUrl.toString();
