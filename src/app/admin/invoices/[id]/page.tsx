@@ -140,11 +140,11 @@ export default function InvoiceDetailPage() {
       {/* Customer */}
       <div className="rounded-xl bg-white p-4 shadow-sm sm:p-6">
         <h3 className="mb-3 text-sm font-semibold text-primary sm:text-base">Customer</h3>
-        <div className="grid grid-cols-2 gap-3 text-sm sm:gap-4">
+        <div className="grid grid-cols-1 gap-3 text-sm sm:grid-cols-2 sm:gap-4">
           <Row label="Name" value={invoice.customerName} />
           <Row label="Phone" value={invoice.customerPhone} />
           <Row label="Email" value={invoice.customerEmail || "—"} />
-          <Row label="Address" value={invoice.customerAddress || "—"} />
+          <Row label="Address" value={invoice.customerAddress || "—"} multiline />
         </div>
       </div>
 
@@ -195,7 +195,7 @@ export default function InvoiceDetailPage() {
       {/* Meta */}
       <div className="rounded-xl bg-white p-4 shadow-sm sm:p-6">
         <h3 className="mb-3 text-sm font-semibold text-primary sm:text-base">Details</h3>
-        <div className="grid grid-cols-2 gap-3 text-sm sm:gap-4">
+        <div className="grid grid-cols-1 gap-3 text-sm sm:grid-cols-2 sm:gap-4">
           <Row label="Invoice date" value={formatDate(invoice.invoiceDate)} />
           <Row label="Due date" value={invoice.dueDate ? formatDate(invoice.dueDate) : "—"} />
         </div>
@@ -226,11 +226,17 @@ export default function InvoiceDetailPage() {
   );
 }
 
-function Row({ label, value }: { label: string; value: string }) {
+function Row({ label, value, multiline = false }: { label: string; value: string; multiline?: boolean }) {
   return (
-    <div>
+    <div className="min-w-0">
       <p className="text-[11px] font-medium uppercase tracking-wide text-gray-400">{label}</p>
-      <p className="mt-0.5 text-sm font-medium text-gray-800">{value}</p>
+      <p
+        className={`mt-0.5 text-sm font-medium text-gray-800 ${
+          multiline ? "whitespace-pre-wrap break-words" : "break-words"
+        }`}
+      >
+        {value}
+      </p>
     </div>
   );
 }
