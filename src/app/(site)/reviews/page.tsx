@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Star } from "lucide-react";
 import { getMergedReviews } from "@/lib/reviews-merged";
-import { ReviewCard } from "@/components/review-card";
+import { ReviewsList } from "@/components/reviews-list";
 import { ReviewSubmissionForm } from "@/components/review-submission-form";
 
 // ISR — page is regenerated at most every 30 minutes. Admin actions also revalidate this path explicitly.
@@ -16,10 +16,15 @@ export const metadata: Metadata = {
 export default async function ReviewsPage() {
   const { reviews, stats } = await getMergedReviews(null);
 
-  const totalShown = reviews.length;
+  const visibleCount = reviews.length;
   const headlineRating =
     stats.combinedAvg != null ? stats.combinedAvg : stats.googleRating ?? 5;
-  const headlineCount = (stats.googleTotal ?? 0) + stats.userTotal;
+
+  // Wire the Date objects across the server/client boundary as ISO strings.
+  const wireReviews = reviews.map((r) => ({
+    ...r,
+    date: r.date ? r.date.toISOString() : null,
+  }));
 
   return (
     <div className="pt-20">
@@ -42,13 +47,13 @@ export default async function ReviewsPage() {
             </div>
             <span className="hidden text-white/40 sm:inline">|</span>
             <span className="text-sm text-white/90 sm:text-base">
-              <strong>{headlineCount || totalShown}</strong> reviews
+              <strong>{visibleCount}</strong> review{visibleCount === 1 ? "" : "s"}
             </span>
-            {stats.userTotal > 0 && (
+            {stats.googleTotal != null && stats.googleTotal > stats.googleShown && (
               <>
                 <span className="hidden text-white/40 sm:inline">|</span>
                 <span className="text-xs text-white/70 sm:text-sm">
-                  {stats.googleShown} from Google · {stats.userTotal} on this site
+                  From {stats.googleTotal} ratings on Google
                 </span>
               </>
             )}
@@ -59,11 +64,11 @@ export default async function ReviewsPage() {
       {/* Body: grid + submission form side-by-side on desktop */}
       <section className="bg-muted px-3 py-10 sm:px-4 sm:py-16">
         <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[1fr_22rem]">
-          {/* Reviews grid */}
+          {/* Reviews list with Show More pagination */}
           <div>
             <div className="mb-5 flex items-center justify-between">
               <h2 className="text-lg font-bold text-primary sm:text-xl">
-                {totalShown} review{totalShown === 1 ? "" : "s"}
+                {visibleCount} review{visibleCount === 1 ? "" : "s"}
               </h2>
               <a
                 href="#share-your-review"
@@ -73,19 +78,7 @@ export default async function ReviewsPage() {
               </a>
             </div>
 
-            {totalShown === 0 ? (
-              <div className="rounded-xl bg-white p-10 text-center text-muted-foreground shadow-sm">
-                <p className="text-sm">
-                  No reviews yet. Be the first to share your experience using the form below!
-                </p>
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5">
-                {reviews.map((r) => (
-                  <ReviewCard key={r.id} review={r} />
-                ))}
-              </div>
-            )}
+            <ReviewsList reviews={wireReviews} />
           </div>
 
           {/* Sidebar with submission form */}
