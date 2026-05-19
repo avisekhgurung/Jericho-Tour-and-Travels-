@@ -3,6 +3,7 @@ import { fetchAndCacheReviews } from "@/lib/google-reviews";
 import { db } from "@/lib/db";
 import { googleReviews, googleReviewsMeta } from "@/lib/db/schema";
 import { eq, isNotNull, sql } from "drizzle-orm";
+import { revalidatePath } from "next/cache";
 
 // Admin-only: read current sync status (GET) or trigger a manual refresh (POST).
 export const dynamic = "force-dynamic";
@@ -49,6 +50,12 @@ export async function POST() {
     return Response.json({ ok: false, error: "unauthorized" }, { status: 401 });
   }
   const result = await fetchAndCacheReviews();
+  // Bust the homepage + /reviews ISR cache so admin sees the fresh reviews immediately,
+  // not after the next 24h page revalidation.
+  if (result.ok) {
+    revalidatePath("/");
+    revalidatePath("/reviews");
+  }
   const status = result.ok ? 200 : 500;
   return Response.json(result, { status });
 }

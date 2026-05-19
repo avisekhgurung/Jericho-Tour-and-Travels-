@@ -1,8 +1,10 @@
 import { NextRequest } from "next/server";
 import { fetchAndCacheReviews } from "@/lib/google-reviews";
+import { revalidatePath } from "next/cache";
 
-// Vercel Cron hits this endpoint every 6h. Locally, anyone with the CRON_SECRET
-// can trigger it via `curl -H "Authorization: Bearer $CRON_SECRET" .../api/cron/refresh-reviews`.
+// Vercel Cron hits this endpoint once a day (Hobby plan ceiling). Locally, anyone
+// with the CRON_SECRET can trigger it manually:
+//   curl -H "Authorization: Bearer $CRON_SECRET" .../api/cron/refresh-reviews
 export const dynamic = "force-dynamic";
 
 async function handle(req: NextRequest) {
@@ -16,6 +18,10 @@ async function handle(req: NextRequest) {
   }
 
   const result = await fetchAndCacheReviews();
+  if (result.ok) {
+    revalidatePath("/");
+    revalidatePath("/reviews");
+  }
   const status = result.ok ? 200 : 500;
   return Response.json(result, { status });
 }

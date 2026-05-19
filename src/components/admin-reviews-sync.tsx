@@ -81,7 +81,7 @@ export function AdminReviewsSync() {
         <div>
           <h2 className="text-sm font-semibold text-primary sm:text-base">Google Reviews Sync</h2>
           <p className="mt-0.5 text-[11px] text-gray-500 sm:text-xs">
-            Auto-refreshes every 6 hours · last synced{" "}
+            Auto-refreshes once a day · last synced{" "}
             <span className="font-medium text-gray-700">{formatTimeAgo(status.meta?.lastFetchedAt ?? null)}</span>
           </p>
         </div>

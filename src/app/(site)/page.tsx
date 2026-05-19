@@ -17,9 +17,11 @@ import { HeroBookingForm } from "@/components/hero-booking-form";
 import { AdventureSection } from "@/components/adventure-section";
 import { getMergedReviews } from "@/lib/reviews-merged";
 
-// Re-render the homepage at most every 6 hours so it picks up newly-cached
-// Google reviews without hitting the DB on every visit.
-export const revalidate = 21600;
+// Re-render the homepage at most once a day so it picks up newly-cached Google reviews
+// without hitting the DB on every visit. The admin "Refresh now" button + the daily
+// Vercel cron both call revalidatePath('/') so fresh reviews appear immediately when
+// the admin triggers them — this 24h interval is just the upper bound.
+export const revalidate = 86400;
 
 const services = [
   {
