@@ -78,9 +78,15 @@ export function ReviewCard({ review }: { review: MergedReview }) {
         </h3>
       )}
 
-      <p className="text-sm leading-relaxed text-muted-foreground">
-        &ldquo;{review.text}&rdquo;
-      </p>
+      {review.text ? (
+        <p className="text-sm leading-relaxed text-muted-foreground">
+          &ldquo;{review.text}&rdquo;
+        </p>
+      ) : (
+        <p className="rounded-md bg-gray-50 px-3 py-2 text-xs italic text-gray-400">
+          Verified {review.rating}-star rating — no written review
+        </p>
+      )}
     </article>
   );
 }

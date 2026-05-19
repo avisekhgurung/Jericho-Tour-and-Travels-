@@ -10,9 +10,17 @@ export type MergedReview = {
   authorMeta: string | null; // e.g. "Local Guide · 15 reviews" or "Mumbai"
   rating: number;
   title: string | null;
-  text: string;
+  text: string; // may be empty string for star-only Google ratings
   date: Date | null;
   dateLabel: string | null;
+};
+
+export type GetMergedOptions = {
+  /**
+   * If true (default), only return reviews that have actual text content. Use false on the
+   * dedicated /reviews page where star-only ratings should also be visible.
+   */
+  textOnly?: boolean;
 };
 
 export type MergedReviewsBundle = {
@@ -30,19 +38,23 @@ export type MergedReviewsBundle = {
 /**
  * Read both Google + user-submitted reviews, merged and sorted by date (newest first).
  * Pass limit=null for "all", or a number to cap.
+ * Default behaviour filters out star-only Google ratings (no text) so testimonial cards on
+ * the homepage have actual content. Pass `{ textOnly: false }` to include them too.
  */
-export async function getMergedReviews(limit: number | null = null): Promise<MergedReviewsBundle> {
+export async function getMergedReviews(
+  limit: number | null = null,
+  options: GetMergedOptions = {}
+): Promise<MergedReviewsBundle> {
+  const textOnly = options.textOnly ?? true;
+  const googleWhere = textOnly
+    ? and(eq(googleReviews.hidden, false), isNotNull(googleReviews.text), ne(googleReviews.text, ""))
+    : eq(googleReviews.hidden, false);
+
   const [googleRows, userRows, metaRow] = await Promise.all([
     db
       .select()
       .from(googleReviews)
-      .where(
-        and(
-          eq(googleReviews.hidden, false),
-          isNotNull(googleReviews.text),
-          ne(googleReviews.text, "")
-        )
-      )
+      .where(googleWhere)
       .orderBy(desc(googleReviews.reviewDate), desc(googleReviews.id)),
     db
       .select()

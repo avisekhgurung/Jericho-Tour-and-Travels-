@@ -14,7 +14,8 @@ export const metadata: Metadata = {
 };
 
 export default async function ReviewsPage() {
-  const { reviews, stats } = await getMergedReviews(null);
+  // Show ALL reviews on this page (including star-only Google ratings).
+  const { reviews, stats } = await getMergedReviews(null, { textOnly: false });
 
   const visibleCount = reviews.length;
   const headlineRating =
@@ -49,11 +50,12 @@ export default async function ReviewsPage() {
             <span className="text-sm text-white/90 sm:text-base">
               <strong>{visibleCount}</strong> review{visibleCount === 1 ? "" : "s"}
             </span>
-            {stats.googleTotal != null && stats.googleTotal > stats.googleShown && (
+            {(stats.googleTotal != null || stats.userTotal > 0) && (
               <>
                 <span className="hidden text-white/40 sm:inline">|</span>
                 <span className="text-xs text-white/70 sm:text-sm">
-                  From {stats.googleTotal} ratings on Google
+                  {stats.googleTotal ?? stats.googleShown} from Google
+                  {stats.userTotal > 0 && <> · {stats.userTotal} on this site</>}
                 </span>
               </>
             )}
