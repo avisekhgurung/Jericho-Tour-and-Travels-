@@ -96,6 +96,23 @@ export const googleReviews = pgTable("google_reviews", {
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
 
+// Reviews submitted directly through the site by visitors. Require admin approval before going live.
+export const userReviews = pgTable("user_reviews", {
+  id: serial("id").primaryKey(),
+  status: text("status").notNull().default("pending"), // 'pending' | 'approved' | 'rejected'
+  authorName: text("author_name").notNull(),
+  authorEmail: text("author_email").notNull(), // never shown publicly — for follow-up / rate-limiting only
+  authorLocation: text("author_location"), // optional city/state
+  rating: integer("rating").notNull(),
+  title: text("title"), // optional short headline
+  text: text("text").notNull(),
+  submittedFromIp: text("submitted_from_ip"), // for rate-limiting + abuse traces
+  adminNotes: text("admin_notes"),
+  approvedAt: timestamp("approved_at"),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+});
+
 // Singleton meta row tracking last fetch + business-level stats.
 export const googleReviewsMeta = pgTable("google_reviews_meta", {
   id: serial("id").primaryKey(),

@@ -31,3 +31,20 @@ export const loginSchema = z.object({
   email: z.string().email("Invalid email"),
   password: z.string().min(1, "Password is required"),
 });
+
+export const userReviewSchema = z.object({
+  authorName: z.string().trim().min(2, "Name is required").max(80, "Name too long"),
+  authorEmail: z.string().trim().email("Valid email is required"),
+  authorLocation: z.string().trim().max(80).optional().or(z.literal("")),
+  rating: z.number().int().min(1).max(5),
+  title: z.string().trim().max(120).optional().or(z.literal("")),
+  text: z
+    .string()
+    .trim()
+    .min(20, "Review must be at least 20 characters")
+    .max(2000, "Review too long (max 2000 characters)"),
+  // honeypot — bots fill hidden fields. Must be empty for legit submissions.
+  website: z.string().max(0).optional().or(z.literal("")),
+});
+
+export type UserReviewInput = z.infer<typeof userReviewSchema>;

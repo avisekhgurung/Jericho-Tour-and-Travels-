@@ -12,9 +12,10 @@ import {
   Star,
   Users,
 } from "lucide-react";
+import Link from "next/link";
 import { HeroBookingForm } from "@/components/hero-booking-form";
 import { AdventureSection } from "@/components/adventure-section";
-import { getCachedReviews } from "@/lib/google-reviews";
+import { getMergedReviews } from "@/lib/reviews-merged";
 
 // Re-render the homepage at most every 6 hours so it picks up newly-cached
 // Google reviews without hitting the DB on every visit.
@@ -126,23 +127,22 @@ const reasons = [
 ];
 
 export default async function HomePage() {
-  // Pull cached Google reviews. Falls back to the hand-written set if the DB is empty.
-  const bundle = await getCachedReviews(6).catch(() => null);
+  // Pull merged Google + customer-submitted reviews. Fall back to the hand-written set on DB error.
+  const bundle = await getMergedReviews(6).catch(() => null);
   const testimonials =
     bundle && bundle.reviews.length > 0
       ? bundle.reviews.map((r) => ({
           name: r.authorName,
-          location: r.authorIsLocalGuide
-            ? `Local Guide · ${r.authorReviewCount ?? 0} reviews`
-            : `${r.authorReviewCount ?? 0} reviews`,
+          location: r.authorMeta ?? "Customer",
           rating: r.rating,
-          text: r.text ?? "",
+          text: r.text,
           thumbnail: r.authorThumbnail,
-          link: r.authorLink,
+          source: r.source,
         }))
-      : fallbackTestimonials;
-  const businessRating = bundle?.meta.businessRating ?? 5;
-  const totalReviews = bundle?.meta.totalReviews ?? null;
+      : fallbackTestimonials.map((t) => ({ ...t, source: "google" as const }));
+  const businessRating = bundle?.stats.combinedAvg ?? bundle?.stats.googleRating ?? 5;
+  const totalReviews =
+    bundle != null ? (bundle.stats.googleTotal ?? 0) + bundle.stats.userTotal : null;
 
   return (
     <div className="pt-20">
@@ -329,12 +329,12 @@ export default async function HomePage() {
       <AdventureSection />
 
       <section className="bg-muted px-3 py-12 sm:px-4 sm:py-20">
-        <div className="mx-auto max-w-4xl">
+        <div className="mx-auto max-w-6xl">
           <div className="mb-8 text-center sm:mb-16">
             <h2 style={{ fontSize: "clamp(1.75rem, 5vw, 2.5rem)", fontWeight: 700, color: "#0B3C5D" }}>
               What Our Clients Say
             </h2>
-            <p className="mt-4 text-muted-foreground">Real, verified reviews — auto-synced from Google every few hours</p>
+            <p className="mt-4 text-muted-foreground">Verified Google reviews and first-hand customer experiences</p>
             {totalReviews != null && (
               <div className="mt-4 inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 shadow">
                 <span className="text-lg font-bold" style={{ color: "#0B3C5D" }}>{businessRating.toFixed(1)}</span>
@@ -380,14 +380,20 @@ export default async function HomePage() {
                     <p className="truncate text-sm font-semibold" style={{ color: "#0B3C5D" }}>{testimonial.name}</p>
                     <p className="truncate text-xs text-muted-foreground">{testimonial.location}</p>
                   </div>
-                  <span className="text-sm font-bold" aria-label="Google review">
-                    <span style={{ color: "#4285F4" }}>G</span>
-                    <span style={{ color: "#EA4335" }}>o</span>
-                    <span style={{ color: "#FBBC05" }}>o</span>
-                    <span style={{ color: "#4285F4" }}>g</span>
-                    <span style={{ color: "#34A853" }}>l</span>
-                    <span style={{ color: "#EA4335" }}>e</span>
-                  </span>
+                  {testimonial.source === "user" ? (
+                    <span className="inline-block rounded-full bg-accent/10 px-2 py-0.5 text-[0.65rem] font-semibold uppercase tracking-wide text-accent">
+                      Customer
+                    </span>
+                  ) : (
+                    <span className="text-sm font-bold" aria-label="Google review">
+                      <span style={{ color: "#4285F4" }}>G</span>
+                      <span style={{ color: "#EA4335" }}>o</span>
+                      <span style={{ color: "#FBBC05" }}>o</span>
+                      <span style={{ color: "#4285F4" }}>g</span>
+                      <span style={{ color: "#34A853" }}>l</span>
+                      <span style={{ color: "#EA4335" }}>e</span>
+                    </span>
+                  )}
                 </div>
                 <div className="mb-3 flex">
                   {Array.from({ length: testimonial.rating }).map((_, i) => (
@@ -399,6 +405,22 @@ export default async function HomePage() {
                 </p>
               </article>
             ))}
+          </div>
+
+          <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:mt-10 sm:flex-row">
+            <Link
+              href="/reviews"
+              className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-white shadow-md transition-opacity hover:opacity-90"
+            >
+              View all reviews
+              <span aria-hidden="true">→</span>
+            </Link>
+            <Link
+              href="/reviews#share-your-review"
+              className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-white px-6 py-3 text-sm font-semibold text-primary transition-colors hover:bg-primary/5"
+            >
+              Write your review
+            </Link>
           </div>
         </div>
       </section>
